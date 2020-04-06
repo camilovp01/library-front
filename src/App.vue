@@ -7,7 +7,7 @@
       </div>
       <div class="app-content">
         <div class="add-button">
-          <button @click="toggleModal()">Agregar</button>
+          <button @click="toggleModal('add', null)">+ Agregar</button>
         </div>
         <div class="book-container">
           <Card
@@ -17,11 +17,20 @@
             :_id="book._id"
             :title="book.title"
             :description="book.description"
+            :toggleModal="toggleModal"
+            :book="book"
           />
         </div>
       </div>
     </div>
-    <Modal :showModal="showModal" :toggleModal="toggleModal" />
+    <!-- <BookForm /> -->
+    <Modal
+      @refresh="getAllBooks()"
+      :typeForm="typeForm"
+      :showModal="showModal"
+      :toggleModal="toggleModal"
+      :book="book"
+    />
   </div>
 </template>
 
@@ -30,6 +39,7 @@ import Card from "./components/library/Card";
 import Header from "./components/library/Header";
 import Modal from "./components/library/Modal";
 import axios from "axios";
+import Vue from "vue";
 
 export default {
   name: "App",
@@ -40,22 +50,23 @@ export default {
   },
   data: () => ({
     books: [],
-    showModal: false
+    showModal: false,
+    typeForm: "",
+    book: {}
   }),
   mounted() {
     this.getAllBooks();
   },
   methods: {
     getAllBooks() {
-      return axios
-        .get(`http://192.168.0.8:3000/api/v1/library/book`)
-        .then(books => {
-          this.books = books.data.books;
-          console.log(books.data);
-        });
+      axios.get(`${Vue.config.baseApiUrl}book`).then(books => {
+        this.books = books.data.books;
+      });
     },
-    toggleModal() {
+    toggleModal(typeForm, book) {
       this.showModal = !this.showModal;
+      this.typeForm = typeForm;
+      this.book = book;
     }
   }
 };
@@ -89,6 +100,14 @@ export default {
       justify-content: flex-end;
       button {
         margin: 1em 4em;
+        background: #72b03a;
+        border-radius: 6px;
+        padding: 8px;
+        color: #ffffff;
+        box-shadow: 0;
+        &:hover {
+          background: #73be30;
+        }
       }
     }
   }
@@ -98,6 +117,5 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="book-card">
+  <div class="book-card" @click="toggleModal('edit', book)">
     <div class="img-card-contain">
       <img src="https://edit.org/images/cat/portadas-libros-big-2019101610.jpg" alt="Portada" />
     </div>
@@ -9,7 +9,7 @@
         <p :title="title">{{title}}</p>
       </div>
       <div class="rowCard">
-        <b>Autor(s)</b>
+        <b>Autor(es)</b>
         <p>{{format(authors, 'name')}}</p>
       </div>
       <div class="rowCard">
@@ -27,7 +27,9 @@ export default {
     authors: Array,
     _id: String,
     title: String,
-    description: String
+    description: String,
+    toggleModal: Function,
+    book: Object
   },
   methods: {
     format(array, property) {

@@ -3,18 +3,33 @@
     <div class="modal-back"></div>
     <div class="modal-container">
       <div class="modal-content">
-        <button @click="toggleModal()">Cerrar</button>
+        <div class="close">
+          <button @click="toggleModal()">X</button>
+        </div>
+        <BookForm :book="book" :typeForm="typeForm" @refresh="refresh()" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BookForm from "./BookForm";
+
 export default {
   name: "Modal",
   props: {
     showModal: Boolean,
-    toggleModal: Function
+    toggleModal: Function,
+    typeForm: String,
+    book: Object
+  },
+  components: {
+    BookForm
+  },
+  methods: {
+    refresh() {
+      this.$emit("refresh");
+    }
   }
 };
 </script>
@@ -23,7 +38,7 @@ export default {
 .modal-back {
   background: black;
   opacity: 0.5;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   height: 100vh;
@@ -40,14 +55,24 @@ export default {
   .modal-content {
     background: #ffff;
     width: 30%;
-    height: 500px;
+    height: 600px;
     position: relative;
     top: 0;
     z-index: 10;
     color: black;
     border-radius: 10px;
-    padding: 2em;
+    padding: 1em;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .close {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      border-radius: 2px;
+    }
   }
 }
 </style>
