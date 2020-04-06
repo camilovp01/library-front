@@ -7,7 +7,9 @@ Vue.use(VueSweetalert2);
 
 
 Vue.config.productionTip = false
-Vue.config.baseApiUrl = "http://192.168.0.8:3000/api/v1/library/"
+// Vue.config.baseApiUrl = "http://192.168.0.8:3000/api/v1/library/"
+Vue.config.baseApiUrl = "https://virtualibrary.herokuapp.com/api/v1/library/"
+
 
 new Vue({
   render: h => h(App),
